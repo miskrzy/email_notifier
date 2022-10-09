@@ -1,4 +1,6 @@
 import logging
+import smtplib
+import os
 
 import azure.functions as func
 
@@ -6,19 +8,22 @@ import azure.functions as func
 def main(req: func.HttpRequest) -> func.HttpResponse:
     logging.info('Python HTTP trigger function processed a request.')
 
-    name = req.params.get('name')
-    if not name:
-        try:
-            req_body = req.get_json()
-        except ValueError:
-            pass
-        else:
-            name = req_body.get('name')
+    try:
+        email = "schedumail.skr@gmail.com"
+        passw = os.environ["gmail_app_pass"]
 
-    if name:
-        return func.HttpResponse(f"Hello, {name}. This HTTP triggered function executed successfully.")
+        server = smtplib.SMTP_SSL('smtp.gmail.com',465)
+        server.login(email,passw)
+        server.sendmail(email,email,"hello world")
+        server.quit()
+
+    except Exception as e:
+                return func.HttpResponse(
+                e,
+                status_code=200
+        )
     else:
         return func.HttpResponse(
-             "This HTTP triggered function executed successfully. Pass a name in the query string or in the request body for a personalized response.",
-             status_code=200
+                os.environ["myvartest"],
+                status_code=200
         )
