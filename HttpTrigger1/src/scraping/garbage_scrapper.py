@@ -1,7 +1,30 @@
-from http.client import REQUESTED_RANGE_NOT_SATISFIABLE
+
 import json
 import requests
 from bs4 import BeautifulSoup
+
+
+class GarbageScrapper:
+    def __init__(self,street,number) -> None:
+        pass
+
+    def _get_street_id():
+        pass
+
+    def _get_number_id():
+        pass
+    
+
+
+
+
+
+
+
+
+
+
+
 
 URL = "https://ekosystem.wroc.pl/wp-admin/admin-ajax.php"
 FORM_DATA = {"action": "waste_disposal_form_get_schedule_direct",
