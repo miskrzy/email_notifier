@@ -8,6 +8,11 @@ import azure.functions as func
 def main(req: func.HttpRequest) -> func.HttpResponse:
     logging.info('Python HTTP trigger function processed a request.')
 
+    return func.HttpResponse(
+                "a",
+                status_code=200
+        )
+
     try:
         email = "schedumail.skr@gmail.com"
         passw = os.environ["gmail_app_pass"]

@@ -8,12 +8,19 @@ class GarbageScrapper:
     def __init__(self,street,number) -> None:
         pass
 
-    def _get_street_id():
+    def get_garbage_types_for_tomorrow() -> list:
         pass
 
-    def _get_number_id():
+    def _get_garbage_type_dates_dict(street_id:int,number_id:int) -> dict:
+        pass
+
+    def _get_street_id(street_name:str):
+        pass
+
+    def _get_number_id(address_number:str):
         pass
     
+
 
 
 
