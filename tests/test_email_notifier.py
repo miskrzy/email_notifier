@@ -1,5 +1,3 @@
-import pytest
-from email_notifier.garbage_scrapper import GarbageScrapper
 import email_notifier
 import azure.functions as afunc
 
