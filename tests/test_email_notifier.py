@@ -14,7 +14,3 @@ class TestEmailNotifier:
         resp = email_notifier.main(req)
 
         assert resp.get_body() == b"a"
-
-class TestGarbageScrapper:
-    def test_1(self):
-        assert True

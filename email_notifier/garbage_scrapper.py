@@ -1,51 +1,47 @@
-
-import json
 import requests
-from bs4 import BeautifulSoup
 
-
+# TODO: add headers and cookies to requests
 class GarbageScrapper:
-    def __init__(self,street,number) -> None:
+
+    _NO_STREET_PAGE_URL = "https://ekosystem.wroc.pl/gospodarowanie-odpadami/harmonogram-wywozu-odpadow/"
+
+    _NUMBERS_FOR_STREET_URL = "https://ekosystem.wroc.pl/wp-admin/admin-ajax.php"
+    _NUMBERS_FOR_STREET_FORM_TEMPLATE = {
+        "action": "waste_disposal_form_get_street_numbers",
+        "id_ulicy": None
+    }
+
+    _WASTE_SCHEDULE_URL = "https://ekosystem.wroc.pl/wp-admin/admin-ajax.php"
+    _WASTE_SCHEDULE_FORM_TEMPLATE = {
+        "action": "waste_disposal_form_get_schedule_direct",
+        "id_numeru": None,
+        "id_ulicy": None
+    }
+
+    def __init__(self) -> None:
         pass
 
-    def get_garbage_types_for_tomorrow() -> list:
-        pass
+    def get_no_street_page(self) -> str:
+        response_page = requests.get(self._NO_STREET_PAGE_URL).content
+        return response_page
 
-    def _get_garbage_type_dates_dict(street_id:int,number_id:int) -> dict:
-        pass
+    def get_numbers_for_street_response(self, street_id: int) -> str:
+        number_for_street_form = self._WASTE_SCHEDULE_FORM_TEMPLATE
+        number_for_street_form["id_ulicy"] = street_id
 
-    def _get_street_id(street_name:str):
-        pass
+        response_dict = requests.post(self._NUMBERS_FOR_STREET_URL, number_for_street_form).json()
+        return response_dict
 
-    def _get_number_id(address_number:str):
-        pass
-    
+    def get_waste_schedule_response(self, street_id: int, number_id: int) -> dict:
+        waste_schedule_form = self._WASTE_SCHEDULE_FORM_TEMPLATE
+        waste_schedule_form["id_numeru"] = number_id
+        waste_schedule_form["id_ulicy"] = street_id
 
-
-
-
-
-
-
-
+        response_dict = requests.post(self._WASTE_SCHEDULE_URL, waste_schedule_form).json()
+        return response_dict
 
 
-
-
-
-URL = "https://ekosystem.wroc.pl/wp-admin/admin-ajax.php"
-FORM_DATA = {"action": "waste_disposal_form_get_schedule_direct",
-             "id_numeru": 45429, "id_ulicy": 1791}
-
-page = requests.post(URL, FORM_DATA).json()["wiadomosc"]
-
-elements = page.split("kiedy")[1:]
-
-for i in elements:
-    print(i)
-
-# soup = BeautifulSoup(page.content, "html.parser")
-
-# result = soup.find(href=True)["href"]
-
-# print(result)
+# garbageScrapper = GarbageScrapper()
+# print(garbageScrapper.get_no_street_page())
+# print(garbageScrapper.get_numbers_for_street_response(1791))
+# print(garbageScrapper.get_waste_schedule_response(1791,45429))
