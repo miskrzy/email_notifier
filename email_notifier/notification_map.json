@@ -1,6 +1,6 @@
 [
     {
-        "address": "schedumail.skr@gmail.com",
+        "email_address": "schedumail.skr@gmail.com",
         "message_type": "garbage",
         "specifics": {
             "street_name": "Monte Cassino",
