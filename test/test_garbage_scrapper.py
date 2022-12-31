@@ -30,7 +30,7 @@ class TestGarbageScrapper:
     def test_get_street_id(self):
         garbageScrapper = GarbageScrapper()
         street_id = garbageScrapper._get_street_id(self._TEMP_STREET_NAME)
-        assert street_id == self._TEMP_STREET_IDTEMP
+        assert street_id == self._TEMP_STREET_ID
 
     def test_get_number_id(self):
         garbageScrapper = GarbageScrapper()
