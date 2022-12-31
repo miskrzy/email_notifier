@@ -1,7 +1,5 @@
-import json
 import os
 import sys
-from email.message import EmailMessage
 
 sys.path.insert(0, os.path.abspath(os.path.join(__file__, os.pardir, os.pardir)))
 

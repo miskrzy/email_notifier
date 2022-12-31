@@ -20,21 +20,25 @@ class Logger:
         now = datetime.now().strftime(self._DATETIME_FORMAT)
         logMessage = self.LogMessage("INFO", file_name, now, message)
         self._message_stack.append(str(logMessage))
+        print(str(logMessage))
 
     def error(self, message: str, file_name: str = "") -> None:
         now = datetime.now().strftime(self._DATETIME_FORMAT)
         logMessage = self.LogMessage("ERROR", file_name, now, message)
         self._message_stack.append(str(logMessage))
+        print(str(logMessage))
 
     def warning(self, message: str, file_name: str = "") -> None:
         now = datetime.now().strftime(self._DATETIME_FORMAT)
         logMessage = self.LogMessage("WARNING", file_name, now, message)
         self._message_stack.append(str(logMessage))
+        print(str(logMessage))
 
     def debug(self, message: str, file_name: str = "") -> None:
         now = datetime.now().strftime(self._DATETIME_FORMAT)
         logMessage = self.LogMessage("DEBUG", file_name, now, message)
         self._message_stack.append(str(logMessage))
+        print(str(logMessage))
 
     def get_message_stack_as_str(self) -> str:
         return "\n".join(self._message_stack) + "\n"
