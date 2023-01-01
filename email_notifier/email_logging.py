@@ -1,6 +1,6 @@
 from datetime import datetime
 
-class Logger:
+class EmailLogger:
     class LogMessage:
         def __init__(self, level, file_name, time, message) -> None:
             self._level = level

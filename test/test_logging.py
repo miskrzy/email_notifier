@@ -3,13 +3,13 @@ import sys
 
 sys.path.insert(0, os.path.abspath(os.path.join(__file__, os.pardir, os.pardir)))
 
-from email_notifier.logging import Logger
+from email_notifier.email_logging import EmailLogger
 
 
 class TestLogger:
     def test_info(self):
         MESSAGE = "some message"
-        logger = Logger()
+        logger = EmailLogger()
         logger.info(message=MESSAGE, file_name=__file__)
         
         message_to_check = logger._message_stack[0]
@@ -20,7 +20,7 @@ class TestLogger:
 
     def test_error(self):
         MESSAGE = "some message"
-        logger = Logger()
+        logger = EmailLogger()
         logger.error(message=MESSAGE, file_name=__file__)
         
         message_to_check = logger._message_stack[0]
@@ -31,7 +31,7 @@ class TestLogger:
 
     def test_warning(self):
         MESSAGE = "some message"
-        logger = Logger()
+        logger = EmailLogger()
         logger.warning(message=MESSAGE, file_name=__file__)
         
         message_to_check = logger._message_stack[0]
@@ -42,7 +42,7 @@ class TestLogger:
 
     def test_debug(self):
         MESSAGE = "some message"
-        logger = Logger()
+        logger = EmailLogger()
         logger.debug(message=MESSAGE, file_name=__file__)
         
         message_to_check = logger._message_stack[0]
@@ -54,7 +54,7 @@ class TestLogger:
     def test_get_message_stack_as_str(self):
         MESSAGE_INFO = "some info"
         MESSAGE_ERROR = "some error"
-        logger = Logger()
+        logger = EmailLogger()
         logger.info(message=MESSAGE_INFO, file_name=__file__)
         logger.error(message=MESSAGE_ERROR, file_name=__file__)
         

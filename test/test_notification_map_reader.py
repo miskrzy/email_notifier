@@ -4,7 +4,7 @@ import sys
 sys.path.insert(0, os.path.abspath(os.path.join(__file__, os.pardir, os.pardir)))
 
 from email_notifier.notification_map_reader import NotificationMapReader, Notification
-from email_notifier.logging import Logger
+from email_notifier.email_logging import EmailLogger
 
 
 class TestNotificationMapReader:
@@ -13,7 +13,7 @@ class TestNotificationMapReader:
 
     def test_get_all_elements(self):
         TEMP_CONTENT = "abc"
-        logger = Logger()
+        logger = EmailLogger()
         notificationMapReader = NotificationMapReader(self._NOTIFICATION_MAP_PATH, logger)
         notifications = notificationMapReader.get_all_elements()
         for i in notifications:
