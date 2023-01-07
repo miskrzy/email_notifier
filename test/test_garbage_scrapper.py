@@ -1,5 +1,4 @@
 import os
-import pytest
 import sys
 from datetime import date
 
@@ -16,7 +15,6 @@ class TestGarbageScrapper:
     _TEMP_OUTPUT = (_TEMP_STREET["id"], _TEMP_NUMBER["id"])
 
 
-    @pytest.mark.skip(reason="just temp")
     def test_retrieve_streets(self):
         logger = EmailLogger()
         garbageScrapper = GarbageScrapper([self._TEMP_INPUT], logger)
@@ -28,7 +26,6 @@ class TestGarbageScrapper:
         assert len(garbageScrapper._streets_ids) == len([self._TEMP_INPUT])
         assert garbageScrapper._streets_ids[self._TEMP_STREET["name"]] == self._TEMP_STREET["id"]
 
-    @pytest.mark.skip(reason="just temp")
     def test_retrieve_numbers(self):
         logger = EmailLogger()
         garbageScrapper = GarbageScrapper([self._TEMP_INPUT], logger)

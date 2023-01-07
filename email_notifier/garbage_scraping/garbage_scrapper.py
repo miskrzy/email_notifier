@@ -3,6 +3,7 @@ import os
 import re
 import requests
 import sys
+from datetime import datetime
 from typing import List, Tuple
 
 from bs4 import BeautifulSoup
@@ -30,6 +31,7 @@ class GarbageScrapper:
     }
 
     _SCHEDULE_REGEX = r"kiedy_\d{1,4}=(.*?)&co_\d{1,4}=(.*?)&"
+    _DATE_FORMAT = "%Y-%m-%d"
 
     def __init__(self, streets_numbers: List[Tuple[str]], logger: EmailLogger) -> None:
         self._logger = logger
@@ -123,9 +125,10 @@ class GarbageScrapper:
             except Exception as e:
                 self._logger.warning(f"Problem occoured while trying to retrieve schedule for: {names}. Error messge: {e}")
                 continue
-            what_when_info = re.findall(self._SCHEDULE_REGEX, response_message)
-            print(type(what_when_info))
-            print(type(what_when_info[0]))
-            print(type(what_when_info[0][0]))
-            print(what_when_info)
-            print(len(what_when_info))
+            when_what_info = re.findall(self._SCHEDULE_REGEX, response_message)
+            dates_garbage = {}
+            for garbage_date_str, garbage_type in when_what_info:
+                garbage_date = datetime.strptime(garbage_date_str, self._DATE_FORMAT).date()
+                dates_garbage[garbage_date] = dates_garbage.get(garbage_date, []) + [garbage_type]
+            street_number_schedule[names] = dates_garbage
+        return street_number_schedule
