@@ -31,6 +31,7 @@ class TestGarbageScrapper:
         garbageScrapper._streets_ids = {self._TEMP_STREET["name"]: self._TEMP_STREET["id"]}
         garbageScrapper.retrieve_numbers()
         assert isinstance(garbageScrapper._streets_numbers_ids, dict)
+        assert garbageScrapper._streets_numbers_ids
         assert isinstance(list(garbageScrapper._streets_numbers_ids.keys())[0], tuple)
         assert isinstance(list(garbageScrapper._streets_numbers_ids.values())[0], tuple)
         assert garbageScrapper._streets_numbers_ids[self._TEMP_INPUT] == self._TEMP_OUTPUT

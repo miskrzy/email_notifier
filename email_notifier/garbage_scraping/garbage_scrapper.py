@@ -35,7 +35,9 @@ class GarbageScrapper:
         self._streets = [street_number[0] for street_number in self._streets_numbers]
 
     def retrieve_streets(self) -> GarbageScrapper:
+        self._logger.info("Starting of streets retrieval")
         try:
+            self._logger.debug(f"Retrieveing main page with url: {self._NO_STREET_PAGE_URL}")
             main_page = str(requests.get(self._NO_STREET_PAGE_URL).content)
             self._logger.info("Sucessfully retrieved the main garbage page")
         except Exception as e:
@@ -48,12 +50,14 @@ class GarbageScrapper:
             option_tags = select_tag.find_all('option')
             self._streets_ids = {option_tag.text: int(option_tag.get('value')) for option_tag in option_tags if (option_tag.get('value') is not None) and (option_tag.text in self._streets)}
             self._logger.info("Successfully retrieved ids for all streets")
+            self._logger.debug("Retrieved streets and ids: {self._streets_ids}")
         except Exception as e:
             self._logger.error(f"Error while retrieving ids for street names: {e}")
             raise e
         return self
         
     def retrieve_numbers(self) -> GarbageScrapper:
+        self._logger.info("Starting of numbers for streets retrieval")
         if not hasattr(self, '_streets_ids'):
             err = "No streets were retrieved yet. Try calling retrieve_streets() first"
             self._logger.error(err)
@@ -65,12 +69,14 @@ class GarbageScrapper:
             number_for_street_form = self._NUMBERS_FOR_STREET_FORM_TEMPLATE
             number_for_street_form["id_ulicy"] = street_id
             try:
-                print(number_for_street_form)
-                response_dict = requests.post(self._NUMBERS_FOR_STREET_URL, number_for_street_form).json()
+                self._logger.debug(f"Retrieveing main page with url: {self._NUMBERS_FOR_STREET_URL} and content: {number_for_street_form}")
+                response_content = requests.post(self._NUMBERS_FOR_STREET_URL, number_for_street_form).content
+                self._logger.info("Sucessfully retrieved numbers for a street: {street}")
+                self._logger.debug("Response after retrieving numbers for a streeet: {response_content}")
             except Exception as e:
                 self._logger.warning(f"Probelm occoured while trying to retrieve numbers for street: {street}. Error messge: {e}")
                 continue
-            soup = BeautifulSoup(response_dict['selector'], 'html.parser')
+            soup = BeautifulSoup(response_content, 'html.parser')
             option_tags = soup.find_all('option')
             numbers_ids = {option_tag.text: int(option_tag.get('value')) for option_tag in option_tags if (option_tag.get('value') is not None)}
             searched_number_id = numbers_ids.get(number)
@@ -80,13 +86,14 @@ class GarbageScrapper:
             else:
                 self._logger.warning(f"Did not find a number: {number} for a street: {street}")
                 continue
-            
         return self
 
     def get_waste_schedules(self) -> dict:
-        for names, ids in self._streets_numbers_ids:
+        self._logger.info("Starting of schedules for streets and numbers retrieval")
+        for names, ids in self._streets_numbers_ids.items():
             waste_schedule_form = self._WASTE_SCHEDULE_FORM_TEMPLATE  
             waste_schedule_form["id_numeru"] = ids[1]
+            print(waste_schedule_form)
             response_dict = requests.post(self._WASTE_SCHEDULE_URL, waste_schedule_form).json()
             print(response_dict)
 
