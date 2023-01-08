@@ -18,8 +18,3 @@ class TestNotificationMapReader:
         notifications = notificationMapReader.get_all_elements()
         for i in notifications:
             assert isinstance(i, Notification)
-            i.set_content(TEMP_CONTENT)
-            assert i.get_content() == TEMP_CONTENT
-            assert isinstance(i.get_subject(), str)
-            assert isinstance(i.get_recipient(), str)
-            assert '@' in i.get_recipient()

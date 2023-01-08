@@ -10,7 +10,7 @@ from bs4 import BeautifulSoup
 
 sys.path.insert(0, os.path.abspath(os.path.join(__file__, os.pardir, os.pardir)))
 
-from email_logging import EmailLogger
+from email_notifier.email_logging import EmailLogger
 
 
 # TODO: add headers and cookies to requests
@@ -33,14 +33,20 @@ class GarbageScrapper:
     _SCHEDULE_REGEX = r"kiedy_\d{1,4}=(.*?)&co_\d{1,4}=(.*?)&"
     _DATE_FORMAT = "%Y-%m-%d"
 
-    def __init__(self, streets_numbers: List[Tuple[str]], logger: EmailLogger) -> None:
+    def __init__(self, logger: EmailLogger) -> None:
         self._logger = logger
+
+    def set_streets_numbers(self, streets_numbers: List[Tuple[str]]):
         self._streets_numbers = streets_numbers
         self._number_for_a_street = dict(self._streets_numbers)
         self._streets = [street_number[0] for street_number in self._streets_numbers]
 
     def retrieve_streets(self) -> GarbageScrapper:
         self._logger.info("Starting of streets retrieval")
+        if not hasattr(self, '_streets'):
+            err = "No input was given yet. Try calling set_streets_numbers() first"
+            self._logger.error(err)
+            raise Exception(err)
         try:
             self._logger.debug(f"Retrieveing main page with url: {self._NO_STREET_PAGE_URL}")
             response = requests.get(self._NO_STREET_PAGE_URL)

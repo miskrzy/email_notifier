@@ -3,18 +3,10 @@
   "bindings": [
     {
       "authLevel": "function",
-      "type": "httpTrigger",
+      "type": "timerTrigger",
       "direction": "in",
-      "name": "req",
-      "methods": [
-        "get",
-        "post"
-      ]
-    },
-    {
-      "type": "http",
-      "direction": "out",
-      "name": "$return"
+      "name": "dailyTrigger",
+      "schedule": "0 0 6 * * *"
     }
   ]
 }

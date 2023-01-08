@@ -5,11 +5,14 @@ from email.message import EmailMessage
 
 sys.path.insert(0, os.path.abspath(os.path.join(__file__, os.pardir, os.pardir)))
 
-from email_notifier.email_sending.email_sender import EmailSender
+from email_notifier.email_sender import EmailSender
+from email_notifier.email_logging import EmailLogger
 
 
 class TestEmailSender:
     def test_send_email(self):
+
+        logger = EmailLogger()
 
         EMAIL = "schedumail.skr@gmail.com"
         CONFIG_PATH = os.path.abspath(os.path.join(__file__, os.pardir, os.pardir, "local.settings.json"))
@@ -23,7 +26,7 @@ class TestEmailSender:
         msg['To'] = EMAIL
         msg.set_content("test")
 
-        with EmailSender(EMAIL, passw) as emailSender:
+        with EmailSender(EMAIL, passw, logger) as emailSender:
             emailSender.send_email(EMAIL, msg)
 
 
