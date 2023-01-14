@@ -11,7 +11,7 @@ from email_notifier.mail_crafting import craft_garbage_mails
 from email_notifier.notification_map_reader import NotificationMapReader, NotificationGarbage
 
 
-LOGS_EMAIL = os.environ("host_email")
+LOGS_EMAIL = os.environ["host_email"]
 
 def create_log_message(logger: EmailLogger) -> EmailMessage:
     email_msg = EmailMessage()
