@@ -12,11 +12,11 @@ class TestNotification():
     def test_get_email_msg(self):
         dummy_content = "dummy_content"
         elements = {
-            "email_address": "schedumail.skr@gmail.com",
+            "email_address": "dummy@dummail.com",
             "message_type": "garbage",
             "specifics": {
-                "street_name": "Monte Cassino",
-                "number": "35/1"
+                "street_name": "Dummy Street",
+                "number": "123"
             }
         }
         dummy_subject = "dummy subject"
@@ -32,11 +32,11 @@ class TestNotificationGarbage():
     def test_get_email_msg(self):
         dummy_content = "dummy_content"
         elements = {
-            "email_address": "schedumail.skr@gmail.com",
+            "email_address": "dummy@dummail.com",
             "message_type": "garbage",
             "specifics": {
-                "street_name": "Monte Cassino",
-                "number": "35/1"
+                "street_name": "Dummy Street",
+                "number": "123"
             }
         }
         subject = f"Garbage schedule for: {elements['specifics']['street_name']} {elements['specifics']['number']} on: {date.today().strftime('%d-%m-%Y')}"

@@ -1,3 +1,4 @@
+import json
 import os
 import sys
 
@@ -9,12 +10,19 @@ from email_notifier.email_logging import EmailLogger
 
 class TestNotificationMapReader:
 
-    _NOTIFICATION_MAP_PATH = os.path.abspath(os.path.join(__file__, os.pardir, os.pardir, "email_notifier", "notification_map.json"))
+    _LOCAL_SETTINGS_JSON = os.path.abspath(os.path.join(__file__, os.pardir, os.pardir, "local.settings.json"))
 
     def test_get_all_elements(self):
-        TEMP_CONTENT = "abc"
         logger = EmailLogger()
-        notificationMapReader = NotificationMapReader(self._NOTIFICATION_MAP_PATH, logger)
+        print(f'before_read: {self._LOCAL_SETTINGS_JSON}')
+        with open(self._LOCAL_SETTINGS_JSON) as local_settings:
+            print(f'after read: {local_settings}')
+            notification_map = json.load(local_settings)['Values']['notification_map']
+            notification_map_dict = json.loads(notification_map)
+            print(type(notification_map_dict))
+            print(notification_map_dict[0])
+            print(notification_map_dict[0]['email_address'])
+        notificationMapReader = NotificationMapReader(notification_map_dict, logger)
         notifications = notificationMapReader.get_all_elements()
         for i in notifications:
             assert isinstance(i, Notification)

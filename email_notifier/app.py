@@ -2,6 +2,8 @@ import logging
 import smtplib
 import os
 
+import json
+
 import azure.functions as func
 
 from email_notifier import coordinator
