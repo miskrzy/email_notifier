@@ -9,8 +9,8 @@ from email_notifier.email_logging import EmailLogger
 
 
 class TestGarbageScrapper:
-    _TEMP_STREET = {"name": "Monte Cassino, ul.", "id": 1791}
-    _TEMP_NUMBER = {"name": "35/1", "id": 45429}
+    _TEMP_STREET = {"name": "Krakowska, ul.", "id": 83}
+    _TEMP_NUMBER = {"name": "64b", "id": 679980}
     _TEMP_INPUT = (_TEMP_STREET["name"], _TEMP_NUMBER["name"])
     _TEMP_OUTPUT = (_TEMP_STREET["id"], _TEMP_NUMBER["id"])
 

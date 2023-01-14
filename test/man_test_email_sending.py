@@ -14,20 +14,20 @@ class TestEmailSender:
 
         logger = EmailLogger()
 
-        EMAIL = "schedumail.skr@gmail.com"
         CONFIG_PATH = os.path.abspath(os.path.join(__file__, os.pardir, os.pardir, "local.settings.json"))
         with open(CONFIG_PATH) as config_file:
             config_dict = json.load(config_file)
         passw = config_dict["Values"]["gmail_app_pass"]
+        email = config_dict["Values"]["host_email"]
 
         msg = EmailMessage()
         msg['Subject'] = 'test'
-        msg['From'] = EMAIL
-        msg['To'] = EMAIL
+        msg['From'] = email
+        msg['To'] = email
         msg.set_content("test")
 
-        with EmailSender(EMAIL, passw, logger) as emailSender:
-            emailSender.send_email(EMAIL, msg)
+        with EmailSender(email, passw, logger) as emailSender:
+            emailSender.send_email(email, msg)
 
 
 testEmailSender = TestEmailSender()

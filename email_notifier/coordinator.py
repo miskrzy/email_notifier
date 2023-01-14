@@ -1,3 +1,4 @@
+import json
 import os
 
 from datetime import datetime, date
@@ -10,8 +11,7 @@ from email_notifier.mail_crafting import craft_garbage_mails
 from email_notifier.notification_map_reader import NotificationMapReader, NotificationGarbage
 
 
-NOTIFICATION_MAP_PATH = os.path.abspath(os.path.join(__file__, os.pardir, "notification_map.json"))
-LOGS_EMAIL = "schedumail.skr@gmail.com"
+LOGS_EMAIL = os.environ["host_email"]
 
 def create_log_message(logger: EmailLogger) -> EmailMessage:
     email_msg = EmailMessage()
@@ -24,7 +24,10 @@ def create_log_message(logger: EmailLogger) -> EmailMessage:
 def run():
     logger = EmailLogger()
     logger.info(f"Coordinator ran at {datetime.now()}")
-    notification_map_reader = NotificationMapReader(path=NOTIFICATION_MAP_PATH, logger=logger)
+    notification_map = os.environ['notification_map']
+    notification_map_dict = json.loads(notification_map)
+    logger.debug("Successfully read the notification_map from config")
+    notification_map_reader = NotificationMapReader(notification_map=notification_map_dict, logger=logger)
     garbage_scrapper = GarbageScrapper(logger=logger)
     passw = os.environ["gmail_app_pass"]
 
@@ -40,7 +43,7 @@ def run():
     other_notifications_with_content = []
     all_notifications = garbage_notifications_with_content + other_notifications_with_content    
     
-    with EmailSender(email="schedumail.skr@gmail.com", passw=passw, logger=logger) as email_sender:
+    with EmailSender(email=LOGS_EMAIL, passw=passw, logger=logger) as email_sender:
         for notification in all_notifications:
             email_sender.send_email(notification.get_recepient(), notification.get_email_msg())
 

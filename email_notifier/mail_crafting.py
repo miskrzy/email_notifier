@@ -18,14 +18,19 @@ def craft_garbage_mails(notifications: List[NotificationGarbage], garbage_scrapp
         raise e
     logger.info("Retrieved waste schedules")
 
+    today = date.today()
     tomorrow = date.today() + timedelta(days=1)
     after_tomorrow = date.today() + timedelta(days=2)
 
     content_filled_notifications = []
     for notification, input in notifications_garbage_scrapper_inputs.items():
+        today_schedule = waste_schedules[input].get(today)
         tomorrow_schedule = waste_schedules[input].get(tomorrow)
         after_tomorrow_schedule = waste_schedules[input].get(after_tomorrow)
         msg_content = ""
+        if today_schedule:
+            logger.info(f"Schedule for today found for {input}: {today_schedule}")
+            msg_content += f"Typy śmieci wyrzucane dzisiaj ({today_schedule}):\n" + " ".join(today_schedule) + "\n"
         if tomorrow_schedule:
             logger.info(f"Schedule for tomorrow found for {input}: {tomorrow_schedule}")
             msg_content += f"Typy śmieci wyrzucane jutro ({tomorrow}):\n" + " ".join(tomorrow_schedule) + "\n"
