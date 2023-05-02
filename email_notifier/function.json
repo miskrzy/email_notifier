@@ -6,7 +6,7 @@
       "type": "timerTrigger",
       "direction": "in",
       "name": "dailyTrigger",
-      "schedule": "0 0 6 * * *"
+      "schedule": "0 0 5 * * *"
     }
   ]
 }
